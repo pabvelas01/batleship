@@ -56,7 +56,6 @@ public class Battle {
                int ganar=t.ganar();
                if(ganar!=0){
                    e.setResultadoFinalTablero(ganar);
-                   System.out.println(ganar);
                    break;
                }
            }/**Fin de calculos de las 100 casillas 10*10**/
