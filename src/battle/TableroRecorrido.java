@@ -43,8 +43,19 @@ public class TableroRecorrido {
         if(contenido=='0'){
         contenido='X';
         }
+        if(contenido!='X'){
         t[x][y]=contenido;
+        
         intentos++;
+        }
+    }
+    
+    public char getPosicionXY(int x,int y){
+        return t[x][y];
+    }
+    
+    public int getN(){
+        return n;
     }
     
      public void Imprimir(){
