@@ -13,7 +13,8 @@ import java.util.ArrayList;
  */
 public class BarcoGenerico {
     private int largo_casillas;
-    private ArrayList<Posicion> posiciones=new ArrayList<>();
+    private ArrayList<Posicion> posicionesBarco=new ArrayList<>();
+    private ArrayList<Posicion> posicionesVisitadasFuturas=new ArrayList<>();
     private char letra;
     
     public BarcoGenerico(int largoCasillas,char letra){
@@ -22,7 +23,7 @@ public class BarcoGenerico {
     }
     
     public boolean estaCompletado(){
-        if(largo_casillas==posiciones.size()){
+        if(largo_casillas==posicionesBarco.size()){
             return true;
         }
         else{
@@ -32,6 +33,27 @@ public class BarcoGenerico {
     
     public void setPosicion(int x,int y){
         Posicion p=new Posicion(x, y);
-        posiciones.add(p);
+        posicionesBarco.add(p);
+    }
+    public Posicion getPosicionNuevaModoHunter(TableroRecorrido t){
+        if(this.estaCompletado()==false){
+            Posicion ultimoDisparo=posicionesBarco.get(posicionesBarco.size()-1);
+            int N=t.getN();
+            Posicion aux;
+            if(ultimoDisparo.getX()+1<N && t.getPosicionXY(ultimoDisparo.getX()+1, ultimoDisparo.getY())=='0'){ //abajo
+                return aux=new Posicion(ultimoDisparo.getX()+1, ultimoDisparo.getY());
+            }
+            if(ultimoDisparo.getX()-1>=0 && t.getPosicionXY(ultimoDisparo.getX()-1, ultimoDisparo.getY())=='0'){ //arriba
+                return aux=new Posicion(ultimoDisparo.getX()-1, ultimoDisparo.getY());
+            }
+            if(ultimoDisparo.getY()+1<N && t.getPosicionXY(ultimoDisparo.getX(), ultimoDisparo.getY()+1)=='0'){ //derecha
+                return aux=new Posicion(ultimoDisparo.getX(), ultimoDisparo.getY()+1);
+            }
+            if(ultimoDisparo.getY()-1>=0 && t.getPosicionXY(ultimoDisparo.getX(), ultimoDisparo.getY()-1)=='0'){ //IZQUIERDA
+                return aux=new Posicion(ultimoDisparo.getX(), ultimoDisparo.getY()-1);
+            }
+        }
+        //System.out.println("Devolviendo null como posicion !!OJO");
+        return null;
     }
 }
