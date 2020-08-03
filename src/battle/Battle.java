@@ -20,7 +20,7 @@ public class Battle {
     public static void main(String[] args) {
         // TODO code application logic here
         int N=10;
-        int NUMERO_JUEGOS=1;
+        int NUMERO_JUEGOS=100000;
         Estadisticas e=new Estadisticas();
         Tablero t=new Tablero(N);
         TableroRecorrido tableroAux;
@@ -32,7 +32,7 @@ public class Battle {
         
         for (int h=0;h<NUMERO_JUEGOS;h++){ /**Inicio de calculos de los 100.000 jugadas**/
             t=new Tablero(N);
-            t.Imprimir();
+            //t.Imprimir();
              tableroAux=new TableroRecorrido(N);
              portaAviones= new BarcoGenerico(5,'A');
              buque= new BarcoGenerico(4,'B');
@@ -43,27 +43,13 @@ public class Battle {
              
              
            for(int i=0;i<100;i++){  /**Inicio de calculos de las 100 casillas 10*10**/
-               int bandera=0;
                Posicion p=new Posicion();
                char resultado='l';
                if(pilaBarcos.size()==0){
-               p=tableroAux.getNuevaPosicion();
-
-               resultado=t.disparo(p.getX()+1, p.getY()+1);
-               tableroAux.setPosicionVisitada(p.getX(), p.getY(),resultado);
-              
-               System.out.println("mi for i="+i);
+                    p=tableroAux.getNuevaPosicion();
+                  //  System.out.println("mi for i="+i);
                }
-               
-              do{
-                  System.out.println("entre a do while");
-                 p.Imprimir();
-                 
-               if (bandera>0 ||pilaBarcos.size()>0){
-                   resultado=t.disparo(p.getX()+1, p.getY()+1);
-                   System.out.println("Resultado linea 63->"+resultado);
-                   tableroAux.setPosicionVisitada(p.getX(), p.getY(),resultado);
-                   if(resultado=='0'){
+               else if(pilaBarcos.size()>0){
                        char barcoEnPila=pilaBarcos.get(0);
                        switch(barcoEnPila){
                                     case 'A': 
@@ -83,34 +69,23 @@ public class Battle {
                                        p=destructor.getPosicionNuevaModoHunter(tableroAux);
                                         break;
                        }
-                       if(Objects.isNull(p)==true){
-                            p=tableroAux.getNuevaPosicion();
-                       }
-                       System.out.println("/****************/");
-                       try{
-                       p.Imprimir();
-                       System.out.println("/****************/");
-                       resultado=t.disparo(p.getX()+1, p.getY()+1);
-                       System.out.println(resultado);
-                       tableroAux.setPosicionVisitada(p.getX(), p.getY(),resultado);
-                       }
-                       catch(Exception exeption){
-                           System.out.println("ocurrio un pate");
-                       }
-                  }
-                    
                }
                
-               switch(resultado){
+               if(Objects.isNull(p)==true && pilaBarcos.size()!=0){
+                    p=tableroAux.getNuevaPosicion();
+               }
+               
+                resultado=t.disparo(p.getX()+1, p.getY()+1);
+                //System.out.println(resultado);
+                tableroAux.setPosicionVisitada(p.getX(), p.getY(),resultado);
+             
+                 switch(resultado){
                    case 'A': portaAviones.setPosicion(p.getX(), p.getY());
                              if(pilaBarcos.indexOf('A')==-1){
                                 pilaBarcos.add('A');
                              }
                              if(portaAviones.estaCompletado()==true){
                                  pilaBarcos.remove(new Character('A'));
-                             }
-                             else{
-                             p=portaAviones.getPosicionNuevaModoHunter(tableroAux);
                              }
                               break;
                    case 'B': buque.setPosicion(p.getX(), p.getY());
@@ -120,9 +95,6 @@ public class Battle {
                              if(buque.estaCompletado()==true){
                                  pilaBarcos.remove(new Character('B'));
                              }
-                             else{
-                             p=buque.getPosicionNuevaModoHunter(tableroAux);
-                                }
                                break;
                    case 'S': submarino.setPosicion(p.getX(), p.getY());
                              if(pilaBarcos.indexOf('S')==-1){
@@ -130,9 +102,6 @@ public class Battle {
                              }
                              if(submarino.estaCompletado()==true){
                                  pilaBarcos.remove(new Character('S'));
-                             }
-                             else{
-                             p=submarino.getPosicionNuevaModoHunter(tableroAux);
                              }
                                break;
                    case 'C': crucero.setPosicion(p.getX(), p.getY());
@@ -142,10 +111,7 @@ public class Battle {
                              if(crucero.estaCompletado()==true){
                                  pilaBarcos.remove(new Character('C'));
                              }
-                             else{
-                              p=crucero.getPosicionNuevaModoHunter(tableroAux);
-                             }
-                               break;
+                              break;
                    case 'D': destructor.setPosicion(p.getX(), p.getY());
                              if(pilaBarcos.indexOf('D')==-1){
                                 pilaBarcos.add('D');
@@ -153,22 +119,18 @@ public class Battle {
                              if(destructor.estaCompletado()==true){
                                  pilaBarcos.remove( new  Character('D'));
                              }
-                             else{
-                              p=destructor.getPosicionNuevaModoHunter(tableroAux);
-                             }
-                               break;
+                             break;
                }
-               bandera++;
-              }while(pilaBarcos.size()!=0 && t.ganar()==0);
-
+          
                int ganar=t.ganar();
                if(ganar!=0){
                    e.setResultadoFinalTablero(ganar);
                    break;
                }
            }/**Fin de calculos de las 100 casillas 10*10**/
-           
+           // tableroAux.Imprimir();
         } /**termino de calculos de los 100.000 jugadas**/
+       
         e.Impresion();
     }
     

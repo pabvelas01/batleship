@@ -53,7 +53,7 @@ public class BarcoGenerico {
                 return aux=new Posicion(ultimoDisparo.getX(), ultimoDisparo.getY()-1);
             }
         }
-        System.out.println("Devolviendo null como posicion !!OJO");
+        //System.out.println("Devolviendo null como posicion !!OJO");
         return null;
     }
 }
